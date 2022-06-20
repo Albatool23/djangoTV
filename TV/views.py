@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from django.shortcuts import render,redirect,HttpResponse
+from django.contrib import messages
 from .models import *
 def index(request):
      createShow= Show.objects.all()
@@ -12,10 +13,16 @@ def index(request):
 
 def create(request):
     if request.method == 'POST':
-        newShow =Show.objects.create(
+        errors = Show.objects.basic_validator(request.POST)
+        if len(errors) >0:
+            for key,value in errors.items():
+                messages.error(request,value)
+            return redirect('/createShow')
+        else:
+         newShow =Show.objects.create(
             title=request.POST['title'],
             network=request.POST['network'],
-            RDate=request.POST['Rdate']
+            RDate=request.POST['Rdate'],
 
         )
         newShow.save()
@@ -28,11 +35,19 @@ def delete(request,_id):
 
 def edit(request,_id):
     if request.method == 'GET':
+        errors = Show.objects.basic_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('/editeshow4.html')
+    else:
+
         show = Show.objects.get(id=_id)
         context = {
             'show' : show
         }
         return render(request,'editeshow4.html',context)
+
     if request.method == 'POST':
        print(id)
        show = Show.objects.get(id=_id)
