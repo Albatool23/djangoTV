@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="/"> GO back</a>
+<div>
+   <h1> Add a New Show </h1>
+
+        <form  method="POST" action="createShow" >
+        {% csrf_token %}
+        <label for="title"> Title </label>
+        <input type="text" name="title">
+        <label for="network"> Network </label>
+        <input type="text" name="network">
+        <label for="Rdate"> Release Date </label>
+        <input type="date" name="Rdate">
+        <label for="desc"> Description </label>
+        <input type="text" name="desc">
+        <input type="submit" value="Create">
+
+    </form>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>
